@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
@@ -17,7 +18,24 @@ public class UIManager : MonoBehaviour
     [SerializeField] Image coinImage;
     [SerializeField] TMP_Text coinText;
     [SerializeField] TMP_Text stockPercentText;
+    [SerializeField] PricePanel pricePanel;
 
+    static UIManager inst;
+    public void ShowPricePanel() =>
+    pricePanel?.ShowPrices();
+
+    readonly string[] keepScenes = { "HomeScene", "WalkScene" };
+
+    void Awake()
+    {
+        if (inst != null && inst != this) { Destroy(gameObject); return; }
+        inst = this;
+
+        if (IsKeepScene(SceneManager.GetActiveScene().name))
+            DontDestroyOnLoad(transform.root.gameObject);
+
+        SceneManager.sceneLoaded += HandleSceneLoaded;
+    }
     void Start()
     {
         GameManager.Instance.HookUI(this);
@@ -31,11 +49,32 @@ public class UIManager : MonoBehaviour
     }
     void OnDestroy()
     {
+        SceneManager.sceneLoaded -= HandleSceneLoaded;
+
         var player = GameManager.Instance?.PlayerManager;
         if (player != null)
         {
             player.OnStockChanged -= UpdateBar;
             player.OnMoneyChanged -= UpdateCoin;
+        }
+    }
+    bool IsKeepScene(string sceneName) =>
+     System.Array.Exists(keepScenes, s => s == sceneName);
+
+    void HandleSceneLoaded(Scene s, LoadSceneMode m)
+    {
+        bool needHud = IsKeepScene(s.name);
+        if (needHud)
+        {
+            transform.root.gameObject.SetActive(true);
+
+            var player = GameManager.Instance.PlayerManager;
+            UpdateBar("", 0);
+            UpdateCoin(player.Money);
+        }
+        else
+        {
+            Destroy(transform.root.gameObject);
         }
     }
 

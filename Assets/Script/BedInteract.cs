@@ -52,6 +52,7 @@ public class BedInteract : MonoBehaviour
 
         ScreenFader.FadeFromBlack(fadeTime);
         yield return new WaitForSecondsRealtime(fadeTime);
+        DayManager.I.StartMorning();
 
         player.transform.position = originalPos;
 

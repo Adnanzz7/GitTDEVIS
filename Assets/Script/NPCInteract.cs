@@ -18,13 +18,13 @@ public class NPCInteract : MonoBehaviour
     {
         if (!inside || player == null || running) return;
 
-        textInteract.SetActive(true);
+        if (textInteract) textInteract.SetActive(true);
 
         if (player.InteractPressed)
         {
             running = true;
             player.SetFrozen(true);
-            textInteract.SetActive(false);
+            if (textInteract) textInteract.SetActive(false);
             StartCoroutine(RunFlow());
         }
     }
@@ -40,19 +40,20 @@ public class NPCInteract : MonoBehaviour
     void OnTriggerEnter2D(Collider2D col)
     {
         if (col.CompareTag("Player"))
-        {
-            inside = true;
-            player = col.GetComponent<PlayerController>();
-        }
+        { inside = true; player = col.GetComponent<PlayerController>(); }
     }
 
     void OnTriggerExit2D(Collider2D col)
     {
         if (col.CompareTag("Player"))
-        {
-            inside = false;
-            textInteract?.SetActive(false);
-            player = null;
-        }
+        { inside = false; if (textInteract) textInteract.SetActive(false); player = null; }
+    }
+
+    void OnDisable()
+    {
+        inside = false;
+        running = false;
+        if (textInteract) textInteract.SetActive(false);
+        player = null;
     }
 }

@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using System;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -52,5 +53,24 @@ public class ScreenFader : MonoBehaviour
         }
         cg.alpha = target;
         cg.blocksRaycasts = target > 0.5f;
+    }
+
+    public static Coroutine BlendAlpha(CanvasGroup cg, float target, float dur,
+                                       Action onDone = null)
+    {
+        if (instance == null) return null;
+        return instance.StartCoroutine(instance.BlendRoutine(cg, target, dur, onDone));
+    }
+
+    IEnumerator BlendRoutine(CanvasGroup cg, float target, float dur, Action cb)
+    {
+        float start = cg.alpha;
+        for (float t = 0; t < dur; t += Time.unscaledDeltaTime)
+        {
+            cg.alpha = Mathf.Lerp(start, target, t / dur);
+            yield return null;
+        }
+        cg.alpha = target;
+        cb?.Invoke();
     }
 }

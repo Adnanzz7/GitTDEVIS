@@ -1,6 +1,7 @@
 using UnityEngine;
 using Fungus;
 using System;
+using System.Collections.Generic;
 using Random = UnityEngine.Random;
 
 public class BuyerBehaviour : MonoBehaviour
@@ -45,7 +46,7 @@ public class BuyerBehaviour : MonoBehaviour
         if (flow == null || GameManager.Instance?.TradeManager == null)
         { Destroy(gameObject); return; }
 
-        string itemId = productIds[Random.Range(0, productIds.Length)];
+        string itemId = PickWeightedItem();
         int qty = Random.Range(1, 6);
 
         int moodStart = prof.moodStart;
@@ -86,7 +87,17 @@ public class BuyerBehaviour : MonoBehaviour
             flow.SetBooleanVariable("ShowEmergency", true);
         }
     }
-
+    string PickWeightedItem()
+    {
+        var list = new List<string>();
+        foreach (string id in productIds)
+        {
+            int price = GameManager.Instance.MarketManager.HargaSatuan(id);
+            int weight = Mathf.Clamp(6 - price, 1, 5);
+            for (int i = 0; i < weight; i++) list.Add(id);
+        }
+        return list[Random.Range(0, list.Count)];
+    }
 
     public bool MoodEnough() =>
         flow.GetIntegerVariable("Mood") >= flow.GetIntegerVariable("TargetMood");

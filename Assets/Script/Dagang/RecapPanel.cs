@@ -28,6 +28,7 @@ public class RecapPanel : MonoBehaviour
         cabaiText.text = SalesStats.SoldCabai.ToString();
         coinText.text = SalesStats.CoinEarned.ToString();
 
+        transform.SetAsLastSibling();
         gameObject.SetActive(true);
     }
 

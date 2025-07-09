@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 3
   tags:
   - Bridge
+  - HUD
+  - NightOverlay
+  - GlobalUI
   layers:
   - Default
   - TransparentFX

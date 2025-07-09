@@ -22,6 +22,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Menu",
+                    "type": "Button",
+                    "id": "c16a91ae-5444-4b82-839b-e171b3bfa382",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Price",
+                    "type": "Button",
+                    "id": "fb305c45-b940-4af1-bb92-9e4c5b8fda39",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -145,32 +163,26 @@
                     "action": "Interect",
                     "isComposite": false,
                     "isPartOfComposite": false
-                }
-            ]
-        },
-        {
-            "name": "UI",
-            "id": "1e6fe29d-59aa-4968-9457-ca50998f5274",
-            "actions": [
-                {
-                    "name": "Menu",
-                    "type": "Button",
-                    "id": "13041fb3-019a-422a-a170-145c697ea479",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                }
-            ],
-            "bindings": [
+                },
                 {
                     "name": "",
-                    "id": "a9d5642e-2e5a-4658-a96a-822ede949c39",
+                    "id": "069ff62a-1ffb-4315-953d-e2c2423dabc8",
                     "path": "<Keyboard>/escape",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Menu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f953dda5-778b-4c1e-b503-db3430e8908b",
+                    "path": "<Keyboard>/p",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Price",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
